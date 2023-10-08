@@ -1,0 +1,73 @@
+﻿Задача 1
+1 запрос
+SELECT DISTINCT d.name 
+FROM Destination as d
+INNER JOIN Tickets as t
+ON d.id = t.id_destination;
+
+
+2 запрос
+SELECT DISTINCT d.name
+FROM Destination as d
+JOIN Tickets as t 
+ON d.id = t.id_destination
+JOIN Status as s 
+ON d.status_id = s.id
+WHERE s.name = 'Без визы';
+
+
+3 запрос
+SELECT d.name, MAX(t.highest_price) as highest_price
+FROM Destination as d
+JOIN Tickets as t
+ON d.id = t.id_destination
+GROUP BY d.name
+HAVING MAX(t.highest_price) > AVG(t.lowest_price + t.highest_price)/2;
+
+
+Задача 2
+Запрос 1
+SELECT DISTINCT class_name
+FROM visits;
+
+
+2 запрос
+SELECT u.user_surname, u.user_name, SUM(v.hours_spent) AS total_hours_spent
+FROM users u
+JOIN visits as v
+ON u.id_user = v.id_user
+GROUP BY u.user_surname, u.user_name;
+
+
+3 запрос
+SELECT AVG(u.age) AS average_age
+FROM users as u
+INNER JOIN visits as v
+ON u.id_user = v.id_user
+WHERE v.class_name = 'Flex';
+
+
+Задача 3
+1 запрос
+SELECT DISTINCT title
+FROM book
+WHERE year_publish > '1990-01-01';
+
+
+2 запрос
+SELECT a.full_name AS full_name,
+SUM(b.pages) AS total_pages
+FROM author as a
+INNER JOIN book as b
+ON a.id_author = b.id_author
+GROUP BY a.full_name;
+
+
+3 запрос
+SELECT century AS "Век",
+COUNT(*) AS "Количество книг"
+FROM author as a
+JOIN book as b
+ON a.id_author = b.id_author
+GROUP BY century
+ORDER BY century;
